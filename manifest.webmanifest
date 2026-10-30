@@ -1,0 +1,9 @@
+{
+  "name": "Ping Optimizer – Brawl Stars Edition",
+  "short_name": "Ping Optimizer",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080d19",
+  "theme_color": "#090e1b",
+  "description": "Netzwerkdiagnose für dein iPad und Brawl Stars."
+}

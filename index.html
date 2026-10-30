@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090e1b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ping Optimizer">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Ping Optimizer</title>
+<style>
+:root{color-scheme:dark;--bg:#080d19;--panel:#111a2b;--panel2:#172238;--line:#263650;--blue:#3988ff;--cyan:#54d6ff;--muted:#91a2bd;--green:#36d399;--yellow:#f6c85f;--red:#ff6b7a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#1b3763 0%,var(--bg) 48%);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#f4f7ff;min-height:100vh;padding:env(safe-area-inset-top) 16px calc(24px + env(safe-area-inset-bottom))}
+.wrap{max-width:760px;margin:0 auto}.top{display:flex;align-items:center;justify-content:space-between;padding:18px 2px 20px}.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.4px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#3988ff,#36d6e8);display:grid;place-items:center;font-size:22px;box-shadow:0 8px 24px #3988ff44}.tag{font-size:11px;color:#a9caff;border:1px solid #31588a;background:#132947;padding:7px 10px;border-radius:99px}
+h1{font-size:26px;margin:8px 0 5px} .sub{color:var(--muted);font-size:14px;line-height:1.45;margin:0 0 18px}
+.card{background:linear-gradient(155deg,#14213a,#101827);border:1px solid var(--line);border-radius:22px;padding:18px;margin:13px 0;box-shadow:0 12px 30px #0002}
+.hero{text-align:center;padding:22px 18px}.eyebrow{font-size:11px;color:var(--muted);letter-spacing:1.5px;font-weight:700}.big{font-size:58px;line-height:1.15;font-weight:850;letter-spacing:-2px;margin:8px 0 2px}.unit{font-size:17px;color:#b7c8e3;font-weight:600}.status{display:inline-flex;align-items:center;gap:7px;margin-top:12px;border-radius:99px;background:#182c37;color:#9ee9cf;padding:7px 11px;font-size:12px}.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:#0d1626;border:1px solid #24344d;border-radius:15px;padding:13px 10px}.metric small{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}.metric strong{font-size:21px}.metric em{font-size:11px;color:var(--muted);font-style:normal}
+button{border:0;border-radius:15px;padding:15px 18px;font-size:15px;font-weight:800;color:white;background:linear-gradient(100deg,#2875f4,#25a6e9);width:100%;box-shadow:0 8px 22px #2875f433;cursor:pointer}button:disabled{opacity:.55;cursor:default}.secondary{background:#1a2941;border:1px solid #334968;box-shadow:none;margin-top:9px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.section-title{font-weight:800;margin-bottom:12px}.hint{color:var(--muted);font-size:12px;line-height:1.5}.bar{height:9px;background:#263650;border-radius:20px;overflow:hidden;margin-top:12px}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#3988ff,#54d6ff);border-radius:20px;transition:width .2s}
+.result{font-size:13px;color:#c8d5e8;line-height:1.55;margin-top:12px;white-space:pre-line}.history{height:86px;width:100%;display:block}.legend{display:flex;gap:14px;color:var(--muted);font-size:11px;margin-top:8px}.legend i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);margin-right:5px}
+ul{padding-left:19px;margin:9px 0 0;color:#c3d0e5;font-size:13px;line-height:1.7}.foot{color:#7486a3;font-size:11px;line-height:1.5;text-align:center;padding:12px 5px 25px}
+@media(max-width:390px){.big{font-size:50px}.grid{gap:7px}.metric{padding:11px 8px}.metric strong{font-size:18px}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div class="brand"><div class="logo">〽</div><div>PING OPTIMIZER<br><span style="font-size:10px;color:#8fa6c7;font-weight:600;letter-spacing:1.2px">BRAWL STARS EDITION</span></div></div><span class="tag">iPad Edition</span></header>
+<h1>Dein Netzwerk. Im Blick.</h1><p class="sub">Prüfe die Stabilität deiner Internetverbindung, bevor du Brawl Stars startest.</p>
+<section class="card hero">
+ <div class="eyebrow">LETZTE MESSUNG · HTTPS-ANTWORTZEIT</div>
+ <div class="big" id="ping">—<span class="unit"> ms</span></div>
+ <div class="hint" id="headline">Noch kein Test durchgeführt</div>
+ <div class="status"><span class="dot"></span><span id="state">Bereit für den Verbindungstest</span></div>
+</section>
+<section class="card">
+ <div class="grid">
+  <div class="metric"><small>Ø Antwortzeit</small><strong id="avg">—</strong> <em>ms</em></div>
+  <div class="metric"><small>Schwankung*</small><strong id="jitter">—</strong> <em>ms</em></div>
+  <div class="metric"><small>Fehlerquote</small><strong id="loss">—</strong> <em>%</em></div>
+ </div>
+ <p class="hint" style="margin:12px 2px 0">*Jitter hier = mittlere absolute Änderung zwischen aufeinanderfolgenden HTTPS-Messungen. Kein direkter Spielserver-Jitter.</p>
+</section>
+<section class="card">
+ <div class="row"><div class="section-title">Verbindungstest</div><span class="hint" id="progressText">10 Messungen</span></div>
+ <button id="start">⚡ Verbindung testen</button>
+ <button class="secondary" id="stop" disabled>Test abbrechen</button>
+ <div class="bar"><span id="progress"></span></div>
+ <div class="result" id="result">Der Test sendet kleine HTTPS-Anfragen an einen öffentlichen Verbindungstest-Endpunkt. Er verändert keine iPad- oder Router-Einstellungen.</div>
+</section>
+<section class="card">
+ <div class="section-title">Antwortzeit-Verlauf</div>
+ <canvas class="history" id="chart" width="700" height="170"></canvas>
+ <div class="legend"><span><i></i>HTTPS-Antwortzeit</span></div>
+</section>
+<section class="card">
+ <div class="section-title">Gaming-Check für Brawl Stars</div>
+ <div class="row"><span class="hint">WLAN-Verbindung</span><strong id="wifi">Wird geprüft …</strong></div>
+ <div class="row" style="margin-top:12px"><span class="hint">Online-Status</span><strong id="online">—</strong></div>
+ <ul>
+  <li>iPad möglichst nah an der FRITZ!Box oder am passenden Mesh-Repeater verwenden.</li>
+  <li>Während des Spielens große Downloads und Streaming auf anderen Geräten vermeiden.</li>
+  <li>Bei Schwankungen testen, ob 5-GHz-WLAN am Spielort stabiler ist als 2,4 GHz.</li>
+  <li>VPN testweise ausgeschaltet lassen, sofern du keines benötigst.</li>
+ </ul>
+</section>
+<section class="card">
+ <div class="section-title">Was diese App kann – und was nicht</div>
+ <p class="hint">Safari und iPadOS erlauben einer normalen Web-App keinen echten ICMP-Ping, keine direkte Messung zum Brawl-Stars-Spielserver und keine Priorisierung des Spielverkehrs. Diese App misst deshalb HTTPS-Antwortzeiten als Orientierung. Die Werte können vom Ping im Spiel abweichen.</p>
+</section>
+<div class="foot">Ping Optimizer · Version 1.0<br>Keine Verbindung zu Supercell. Keine Einstellungen werden ohne deine Zustimmung geändert.</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let running=false, samples=[];
+function draw(){
+ const c=$('chart'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+ ctx.strokeStyle='#263650';ctx.lineWidth=1;
+ for(let i=1;i<4;i++){let y=i*h/4;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+ if(!samples.length)return;
+ const vals=samples.filter(x=>x!==null);if(!vals.length)return;
+ const max=Math.max(100,...vals)*1.15,min=0;
+ ctx.strokeStyle='#54d6ff';ctx.lineWidth=4;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();
+ let started=false;
+ samples.forEach((v,i)=>{if(v===null)return;let x=samples.length===1?w/2:i*w/(Math.max(9,samples.length-1));let y=h-12-(v-min)/(max-min)*(h-24);if(!started){ctx.moveTo(x,y);started=true}else ctx.lineTo(x,y)});
+ ctx.stroke();
+}
+function stats(){
+ const ok=samples.filter(x=>x!==null),bad=samples.length-ok.length;
+ if(!ok.length){$('ping').innerHTML='—<span class="unit"> ms</span>';$('avg').textContent='—';$('jitter').textContent='—';$('loss').textContent=samples.length?'100':'—';return}
+ const avg=ok.reduce((a,b)=>a+b,0)/ok.length;
+ const diffs=[];for(let i=1;i<samples.length;i++)if(samples[i]!==null&&samples[i-1]!==null)diffs.push(Math.abs(samples[i]-samples[i-1]));
+ const jit=diffs.length?diffs.reduce((a,b)=>a+b,0)/diffs.length:0;
+ $('ping').innerHTML=Math.round(ok[ok.length-1])+'<span class="unit"> ms</span>';
+ $('avg').textContent=Math.round(avg);$('jitter').textContent=Math.round(jit);$('loss').textContent=Math.round(bad/samples.length*100);
+ let label=avg<80&&jit<20?'Gute HTTPS-Verbindung':avg<160?'Verbindung könnte stabiler sein':'Hohe Antwortzeiten erkannt';
+ $('headline').textContent=label;
+}
+async function runTest(){
+ if(running)return;running=true;samples=[];$('start').disabled=true;$('stop').disabled=false;$('state').textContent='Messung läuft …';$('result').textContent='Bitte während des Tests kurz warten.';
+ const endpoint='https://www.cloudflare.com/cdn-cgi/trace';
+ for(let i=0;i<10;i++){
+  if(!running)break;
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),5000),t=performance.now();
+  try{
+   const r=await fetch(endpoint+'?t='+Date.now()+'-'+i,{cache:'no-store',mode:'cors',signal:controller.signal});
+   if(!r.ok)throw new Error('HTTP '+r.status);
+   await r.text();samples.push(performance.now()-t);
+  }catch(e){samples.push(null)}
+  clearTimeout(timer);stats();draw();
+  $('progress').style.width=((i+1)*10)+'%';$('progressText').textContent=(i+1)+'/10 Messungen';
+  if(i<9&&running)await new Promise(r=>setTimeout(r,350));
+ }
+ running=false;$('start').disabled=false;$('stop').disabled=true;
+ const good=samples.filter(x=>x!==null).length;
+ $('state').textContent=good===10?'Test abgeschlossen':good?'Teilweise abgeschlossen':'Test nicht möglich';
+ $('result').textContent=good+' von 10 HTTPS-Anfragen erfolgreich.\n'+(good?'Die Messwerte sind eine Orientierung und nicht der Brawl-Stars-Server-Ping.':'Prüfe deine Internetverbindung und versuche es erneut.');
+}
+$('start').addEventListener('click',runTest);
+$('stop').addEventListener('click',()=>{running=false;$('state').textContent='Test abgebrochen';});
+function deviceStatus(){
+ $('online').textContent=navigator.onLine?'Online':'Offline';
+ $('wifi').textContent=navigator.connection?.effectiveType||'WLAN/Netzwerk nicht direkt auslesbar';
+}
+window.addEventListener('online',deviceStatus);window.addEventListener('offline',deviceStatus);deviceStatus();draw();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>
